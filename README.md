@@ -19,7 +19,6 @@ A CRM system built with **Django** and **GraphQL** using the `graphene-django` l
 ---
 
 ## 🧱 Project Structure
-
 alx-backend-graphql_crm/
 ├── crm/ # Django app for CRM logic
 │ ├── models.py # Models: Customer, Product, Order
