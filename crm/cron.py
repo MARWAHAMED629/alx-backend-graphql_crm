@@ -1,3 +1,7 @@
+from gql.transport.requests import RequestsHTTPTransport
+from gql import gql, Client
+
+# Existing imports
 import requests
 from datetime import datetime
 
@@ -8,13 +12,14 @@ def log_crm_heartbeat():
 
     # Optionally query the GraphQL hello field
     try:
-        response = requests.post(
-            'http://localhost:8000/graphql',
-            json={'query': '{ hello }'}
+        transport = RequestsHTTPTransport(
+            url='http://localhost:8000/graphql',
+            verify=True,
+            retries=3
         )
-        if response.status_code == 200:
-            print("GraphQL endpoint is responsive.")
-        else:
-            print("GraphQL endpoint is not responsive.")
+        client = Client(transport=transport, fetch_schema_from_transport=True)
+        query = gql("query { hello }")
+        response = client.execute(query)
+        print("GraphQL endpoint response:", response)
     except Exception as e:
         print(f"Error querying GraphQL endpoint: {e}")
